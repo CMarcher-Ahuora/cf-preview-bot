@@ -16,6 +16,14 @@ inputs:
     description: "Comma-separated list of branch prefixes that should trigger the action (use 'all' for no filtering)"
     required: false
     default: "all"
+  comment_title:
+    description: "The title to use in the produced preview URL comment."
+    required: false
+    default: "## 🚀 Deploying ${{ github.head_ref || github.ref_name }} with ⚡ Cloudflare Pages"
+  comment_tag:
+    description: "The tag used to uniquely identify this comment to allow subsequent automated edits."
+    required: false
+    default: preview-url-comment
 
 outputs:
   comment_message:
@@ -71,7 +79,7 @@ runs:
     run: |
       {
         echo "comment<<EOF"
-        echo "## 🚀 Deploying ${{ github.head_ref || github.ref_name }} with ⚡ Cloudflare Pages"
+        echo "${{ inputs.comment_title }}"
         echo ""
         echo "| **Latest commit:** | \`${{ github.event.pull_request.head.sha }}\` |"
         echo "|--------------------|----------------------|"
@@ -85,4 +93,4 @@ runs:
     uses: thollander/actions-comment-pull-request@v2
     with:
       message: ${{ steps.generate_comment.outputs.comment }}
-      comment_tag: preview-url-comment
+      comment_tag: ${{ inputs.comment_tag }}
