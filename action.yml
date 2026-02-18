@@ -85,12 +85,13 @@ runs:
         echo "|--------------------|----------------------|"
         echo "| **Status:**        | ✅ Deploy successful |"
         echo "| **Preview URL:**   | [${{ inputs.deployment_url }}](${{ inputs.deployment_url }}) |"
-        echo "| **Branch Preview URL:** | [${{ inputs.branch_preview_url }}](${{ inputs.branch_preview_url }}) |"
         echo "EOF"
       } >> "$GITHUB_OUTPUT"
 
   - name: Comment on PR
-    uses: thollander/actions-comment-pull-request@v2
+    uses: marocchino/sticky-pull-request-comment@v2.9.4
     with:
       message: ${{ steps.generate_comment.outputs.comment }}
-      comment_tag: ${{ inputs.comment_tag }}
+      header: ${{ inputs.comment_tag }}
+      hide_and_recreate: true
+      hide_classify: "OUTDATED"
