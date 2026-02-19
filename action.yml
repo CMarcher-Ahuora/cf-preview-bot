@@ -84,7 +84,7 @@ runs:
         echo "| **Latest commit:** | \`${{ github.event.pull_request.head.sha }}\` |"
         echo "|--------------------|----------------------|"
         echo "| **Status:**        | ✅ Deploy successful |"
-        echo "| **Preview URL:**   | [${{ inputs.deployment_url }}](${{ inputs.deployment_url }}) |"
+        echo "| **URL:**   | [${{ inputs.deployment_url }}](${{ inputs.deployment_url }}) |"
         echo "EOF"
       } >> "$GITHUB_OUTPUT"
 
@@ -93,5 +93,4 @@ runs:
     with:
       message: ${{ steps.generate_comment.outputs.comment }}
       header: ${{ inputs.comment_tag }}
-      hide_and_recreate: true
-      hide_classify: "OUTDATED"
+      recreate: true
